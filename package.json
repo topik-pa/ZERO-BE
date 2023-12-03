@@ -10,9 +10,12 @@
   "author": "Marco Pavan",
   "license": "ISC",
   "dependencies": {
-    "eslint": "^8.55.0",
     "express": "^4.18.2",
     "fs": "^0.0.1-security",
     "https": "^1.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.55.0",
+    "nodemon": "^3.0.2"
   }
 }
