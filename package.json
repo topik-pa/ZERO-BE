@@ -4,8 +4,12 @@
   "description": "A Zero backend",
   "main": "index.js",
   "scripts": {
+    "dev": "NODE_ENV=development node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Marco Pavan",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
