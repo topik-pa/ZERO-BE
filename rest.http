@@ -2,4 +2,13 @@
 GET https://localhost:8080
 
 ### 
-POST https://localhost:8080/api/login
+POST https://localhost:8080/login
+
+### 
+POST https://localhost:8080/login
+content-type: application/json
+
+{
+    "email": "ciccio@email.it",
+    "password": "shjgfajsgf444!"
+}
