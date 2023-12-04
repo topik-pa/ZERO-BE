@@ -1,6 +1,9 @@
 ### Welcome message
 GET https://localhost:8080
 
+### Wrong url
+GET https://localhost:8080/wrong-url
+
 ### Wrong body
 POST https://localhost:8080/login
 

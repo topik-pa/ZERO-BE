@@ -22,7 +22,7 @@ let findUserByEmail = async (email) => {
 };
 
 // Login user
-exports.login = async (req, res) => {
+exports.login = async (req, res, next) => {
   // Validate request body
   if (
     !req.body || 
@@ -30,32 +30,47 @@ exports.login = async (req, res) => {
     !req.body.email ||
     !req.body.password
   ) {
-    res.status(400).send({
+    return res.status(400).send({
       error: 'Invalid body',
       code: 'invalidBody'
     });
-    return;
   }
 
   const user = await findUserByEmail(req.body.email);
 
   if (!user) {
-    res.status(404).send({ 
+    return res.status(404).send({ 
       error: 'User not found',
       code: 'userNotFound'
     });
-    return;
   }
 
   if (user.password !== req.body.password) {
-    res.status(404).send({ 
+    return res.status(401).send({ 
       error: 'Wrong password',
       code: 'wrongPassword'
     });
-    return;
   }
 
-  // TODO: add session staff
+  // Session
+  // regenerate the session, which is good practice to help
+  // guard against forms of session fixation
+  req.session.regenerate(function (error) {
+    if (error) {return next(error);}
 
-  res.json(user);
+    // store user information in session, typically a user id
+    req.session.user = {};
+    req.session.user.name = user.name;
+    req.session.user.surname = user.surname;
+    req.session.user.email = user.email;
+
+    // save the session before redirection to ensure page
+    // load does not happen before session is saved
+    req.session.save(function (error) {
+      if (error) {return next(error);}
+      res.redirect('/');
+    });
+  });
+
+  //res.json(user);
 };
