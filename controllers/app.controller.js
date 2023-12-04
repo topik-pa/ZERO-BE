@@ -1,79 +1,61 @@
-//const crypto = require('crypto');
-//const jwt = require('jsonwebtoken');
-//const db = require('../models');
-//const User = db.users;
+const Users = [
+  {
+    id: 0,
+    name: 'Pippo',
+    surname: 'Baudo',
+    email: 'pippo.baudo@rai.it',
+    password: '123secretPWD'
+  },
+  {
+    id: 1,
+    name: 'Paola',
+    surname: 'Barale',
+    email: 'paola.barale@mediaset.it',
+    password: 'ciccioBello$$1'
+  }
+];
 
-/*function hashPWD(pwd) {
-  return crypto.createHash('sha256').update(pwd).digest('base64').toString();
-}*/
-
-/*function validatePWD(plainPwd, hashedPwd) {
-  return hashPWD(plainPwd) === hashedPwd;
-}*/
-
+let findUserByEmail = async (email) => {
+  return await Users.find((user) => {
+    return user.email === email;
+  });
+};
 
 // Login user
-exports.login = (req, res) => {
-  res.status(200).send({
-    code: 'OK'
-  });
-  return;
-  
-  // Validate request
-  if (Object.keys(req.body).length === 0) {
+exports.login = async (req, res) => {
+  // Validate request body
+  if (
+    !req.body || 
+    Object.keys(req.body).length === 0 ||
+    !req.body.email ||
+    !req.body.password
+  ) {
     res.status(400).send({
-      error: 'Request body can not be empty!',
-      code: 'emptyBodyError'
+      error: 'Invalid body',
+      code: 'invalidBody'
     });
     return;
   }
-  var user, logging_user = {
-    email: req.body.email,
-    password: req.body.password || undefined
-  };
-  User.findOne({ email: logging_user.email })
-    .then(data => {
-      if (!data) {
-        res.status(404).send({ 
-          error: 'Cannot find the specified user!',
-          code: 'userNotFound'
-        });
-      } else {
-        user = data.toJSON();
-        // Authentication success
-        if (user.password === logging_user.password) { //TODO: check the hash
-        //if (user && validatePWD(logging_user.password, user.password)) {
-          delete user.password;
-          req.session.regenerate(function () {
-            req.session.user = user;
-            req.session.success = 'Authenticated as ' + user.email;
-          });
-          const accessToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-            expiresIn: process.env.SESSION_EXPIRES_IN_MILLISECONDS
-          });
-          User.findByIdAndUpdate(user._id, { accessToken }, { useFindAndModify: false })
-            .then( () => {
-              res.json(user);
-            })
-            .catch( (err) =>{
-              console.log(err);
-            });
-        } else {
-          // Authentication failed
-          req.session.regenerate(function () {
-            req.session.error = 'Authentication failed!';
-          });
-          res.status(401).send({
-            error: 'Authentication failed!',
-            code: 'loginFailed'
-          });
-        }
-      }
-    })
-    .catch(err => {
-      res.status(500).send({
-        error: err + ' -> Some error occurred while login user.',
-        code: 'genericServerError'
-      });
+
+  const user = await findUserByEmail(req.body.email);
+
+  if (!user) {
+    res.status(404).send({ 
+      error: 'User not found',
+      code: 'userNotFound'
     });
+    return;
+  }
+
+  if (user.password !== req.body.password) {
+    res.status(404).send({ 
+      error: 'Wrong password',
+      code: 'wrongPassword'
+    });
+    return;
+  }
+
+  // TODO: add session staff
+
+  res.json(user);
 };

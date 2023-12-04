@@ -1,14 +1,34 @@
 ### Welcome message
 GET https://localhost:8080
 
-### 
+### Wrong body
 POST https://localhost:8080/login
 
-### 
+### User not found
 POST https://localhost:8080/login
 content-type: application/json
 
 {
     "email": "ciccio@email.it",
-    "password": "shjgfajsgf444!"
+    "password": "sssssss!"
+}
+
+
+### Wrong password
+POST https://localhost:8080/login
+content-type: application/json
+
+{
+    "email": "pippo.baudo@rai.it",
+    "password": "wrongwrongwrong!"
+}
+
+
+### User OK
+POST https://localhost:8080/login
+content-type: application/json
+
+{
+    "email": "pippo.baudo@rai.it",
+    "password": "123secretPWD"
 }
