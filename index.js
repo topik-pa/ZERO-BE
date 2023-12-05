@@ -22,6 +22,10 @@ app.use(session({
   cookie: { maxAge: oneDay }
 }));
 
+//views
+app.set('views', './views');
+app.set('view engine', 'pug');
+
 require('./routes/app.routes')(app);
 //404 handling
 app.use((req, res) => {

@@ -29,10 +29,7 @@ const regenerateSession = async (req) => {
 
 // login view
 exports.loginView = async (req, res) => {
-  res.send('<form action="/login" method="post">' +
-  'Email: <input name="email"><br>' +
-  'Password: <input name="password" type="password"><br>' +
-  '<input type="submit" text="Login"></form>');
+  res.render('login', {title: 'Login Page'});
 };
 
 // login user
@@ -98,8 +95,7 @@ exports.loginUser = async (req, res, next) => {
 
 // home page view
 exports.hpView = async (req, res) => {
-  res.send('Hello, ' + req.session.user.name + '!' +
-      ' <a href="/logout">Logout</a>');
+  res.render('index', {title: 'Home page', user: req.session.user});
 };
 
 exports.logoutUser = async (req, res, next) => {
