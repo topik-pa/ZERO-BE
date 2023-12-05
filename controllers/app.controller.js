@@ -1,13 +1,20 @@
 const Users = [
   {
     id: 0,
+    name: 'admin',
+    surname: 'user',
+    email: 'admin@email.com',
+    password: '5eff$$3sfv&gdf8'
+  },
+  {
+    id: 1,
     name: 'Pippo',
     surname: 'Baudo',
     email: 'pippo.baudo@rai.it',
     password: '123secretPWD'
   },
   {
-    id: 1,
+    id: 2,
     name: 'Paola',
     surname: 'Barale',
     email: 'paola.barale@mediaset.it',

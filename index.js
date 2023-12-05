@@ -2,6 +2,7 @@ const express = require('express');
 const https = require('https');
 const fs = require('fs');
 const session = require('express-session');
+const path = require('path');
 
 const app = express();
 
@@ -21,8 +22,11 @@ app.use(session({
   cookie: { maxAge: oneDay }
 }));
 
-//views
-app.set('views', './views');
+
+app.use('/views', express.static(path.join(__dirname, 'views')));
+app.use('/scripts', express.static(path.join(__dirname, 'scripts')));
+app.use('/styles', express.static(path.join(__dirname, 'styles')));
+
 app.set('view engine', 'pug');
 
 require('./routes/app.routes')(app);
