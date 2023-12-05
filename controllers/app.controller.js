@@ -15,14 +15,34 @@ const Users = [
   }
 ];
 
-let findUserByEmail = async (email) => {
-  return await Users.find((user) => {
-    return user.email === email;
+const regenerateSession = async (req) => {
+  await new Promise((resolve, reject) => {
+    req.session.regenerate((err) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve();
+      }
+    });
   });
 };
 
-// Login user
-exports.login = async (req, res, next) => {
+// login view
+exports.loginView = async (req, res) => {
+  res.send('<form action="/login" method="post">' +
+  'Email: <input name="email"><br>' +
+  'Password: <input name="password" type="password"><br>' +
+  '<input type="submit" text="Login"></form>');
+};
+
+// login user
+exports.loginUser = async (req, res, next) => {
+  const findUserByEmail = async (email) => {
+    return await Users.find((user) => {
+      return user.email === email;
+    });
+  };
+
   // Validate request body
   if (
     !req.body || 
@@ -55,22 +75,46 @@ exports.login = async (req, res, next) => {
   // Session
   // regenerate the session, which is good practice to help
   // guard against forms of session fixation
-  req.session.regenerate(function (error) {
+  try {
+    await regenerateSession(req);
+  } catch (error) {
+    return next(error);
+  }
+
+  // store user information in session, typically a user id
+  req.session.user = {};
+  req.session.user.name = user.name;
+  req.session.user.surname = user.surname;
+  req.session.user.email = user.email;
+
+  // save the session before redirection to ensure page
+  // load does not happen before session is saved
+  req.session.save(function (error) {
     if (error) {return next(error);}
+    res.redirect('/');
+  });
 
-    // store user information in session, typically a user id
-    req.session.user = {};
-    req.session.user.name = user.name;
-    req.session.user.surname = user.surname;
-    req.session.user.email = user.email;
+};
 
-    // save the session before redirection to ensure page
-    // load does not happen before session is saved
-    req.session.save(function (error) {
-      if (error) {return next(error);}
+// home page view
+exports.hpView = async (req, res) => {
+  res.send('Hello, ' + req.session.user.name + '!' +
+      ' <a href="/logout">Logout</a>');
+};
+
+exports.logoutUser = async (req, res, next) => {
+  // clear the user from the session object and save.
+  // this will ensure that re-using the old session id
+  // does not have a logged in user
+  req.session.user = null;
+  req.session.save(function (error) {
+    if (error) next(error);
+  
+    // regenerate the session, which is good practice to help
+    // guard against forms of session fixation
+    req.session.regenerate(function (error) {
+      if (error) next(error);
       res.redirect('/');
     });
   });
-
-  //res.json(user);
 };

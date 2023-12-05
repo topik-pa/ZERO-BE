@@ -19,13 +19,14 @@ app.use(session({
 }));
 
 require('./routes/app.routes')(app);
+//404 handling
 app.use((req, res) => {
   res.status(404).send({
     error: 'Resource not found',
     code: 'resourceNotFound'
   });
 });
-//Error handling
+//error handling
 // eslint-disable-next-line no-unused-vars
 app.use((error, req, res, next) => {
   return res.status(error.status || 500).send({
@@ -34,7 +35,7 @@ app.use((error, req, res, next) => {
 });
 
 
-// LISTENING PORT
+//launch server
 const PORT = process.env.PORT || 8080;
 https.createServer({
   key: fs.readFileSync('cert/server.key'),
