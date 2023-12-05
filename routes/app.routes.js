@@ -1,4 +1,3 @@
-const express = require('express');
 const ctrl = require('../controllers/app.controller.js');
 var router = require('express').Router();
 
@@ -13,7 +12,7 @@ module.exports = app => {
   
   //login
   router.get('/login', ctrl.loginView);
-  router.post('/login', express.urlencoded({ extended: false }), ctrl.loginUser); //
+  router.post('/login', ctrl.loginUser);
 
   
   //home page

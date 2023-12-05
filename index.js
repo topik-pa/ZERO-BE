@@ -1,13 +1,17 @@
 const express = require('express');
 const https = require('https');
 const fs = require('fs');
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
 const session = require('express-session');
 
 const app = express();
 
 //parse requests of content-type - application/json
-app.use(bodyParser.json());
+app.use(express.json());
+// Parse application/x-www-form-urlencoded
+app.use(express.urlencoded({
+  extended: true
+}));
 
 //session
 const oneDay = 1000 * 60 * 60 * 24;
