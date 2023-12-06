@@ -1,7 +1,7 @@
 const express = require('express');
-const https = require('https');
-const fs = require('fs');
-//const http = require('http');
+//const https = require('https');
+//const fs = require('fs');
+const http = require('http');
 const session = require('express-session');
 const path = require('path');
 
@@ -56,13 +56,13 @@ app.use((error, req, res, next) => {
 //launch server
 const PORT = process.env.PORT || 8080;
 //HTTPS
-https.createServer({
+/*https.createServer({
   key: fs.readFileSync('cert/server.key'),
   cert: fs.readFileSync('cert/server.cert')
 }, app).listen(PORT, () => {
   console.log(`Server is running on port ${PORT} over HTTPS.`);
-});
-//HTTP
-/*http.createServer(app).listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
 });*/
+//HTTP
+http.createServer(app).listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
