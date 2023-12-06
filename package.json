@@ -4,6 +4,7 @@
   "description": "A Zero backend",
   "main": "index.js",
   "scripts": {
+    "start": "NODE_ENV=production node index.js",
     "dev": "NODE_ENV=development PORT=8080 nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
