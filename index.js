@@ -28,6 +28,9 @@ app.use(session({
 app.use(function (req, res, next) {
   // HEADER HSTS
   res.setHeader('Strict-Transport-Security', 'max-age=999');
+  // HEADER CSP
+  // res.setHeader('Content-Security-Policy', 'upgrade-insecure-requests');
+  res.setHeader('Content-Security-Policy', 'block-all-mixed-content');
   next();
 });
 
