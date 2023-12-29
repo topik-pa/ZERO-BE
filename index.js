@@ -34,6 +34,7 @@ app.use(function (req, res, next) {
 app.use('/views', express.static(path.join(__dirname, 'views')));
 app.use('/scripts', express.static(path.join(__dirname, 'scripts')));
 app.use('/styles', express.static(path.join(__dirname, 'styles')));
+app.use('/assets', express.static(path.join(__dirname, 'assets')))
 
 app.set('view engine', 'pug');
 
