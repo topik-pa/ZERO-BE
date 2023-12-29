@@ -26,6 +26,7 @@ app.use(session({
 
 // set custom headers
 app.use(function (req, res, next) {
+  // HEADER HSTS
   res.setHeader('Strict-Transport-Security', 'max-age=999');
   next();
 });

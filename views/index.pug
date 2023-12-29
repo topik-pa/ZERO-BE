@@ -1,4 +1,12 @@
-h1 #{title}
-div Hello #{user.name} #{user.surname}!
-div 
-  a(href="/logout") Logout
+doctype html
+html(lang="it")
+  head
+    title Home page
+    link(rel="stylesheet", type="text/css", href="/styles/home.css")
+  body 
+    h1 #{title}
+    div Hello #{user.name} #{user.surname}!
+    div 
+      a(href="/logout") Logout
+
+    script(src='/scripts/home.js')
