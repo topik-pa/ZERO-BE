@@ -102,7 +102,7 @@ exports.loginUser = async (req, res, next) => {
 
 // home page view
 exports.hpView = async (req, res) => {
-  res.render('index', {title: 'Home page', user: req.session.user});
+  res.render('home', {title: 'Home page', user: req.session.user});
 };
 
 exports.logoutUser = async (req, res, next) => {
