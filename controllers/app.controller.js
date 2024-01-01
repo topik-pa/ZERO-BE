@@ -19,6 +19,13 @@ const Users = [
     surname: 'Barale',
     email: 'paola.barale@mediaset.it',
     password: 'ciccioBello$$1'
+  },
+  {
+    id: 3,
+    name: 'Barbara',
+    surname: 'D\'Urso',
+    email: 'barbaradurso@mediaset.it',
+    password: 'password'
   }
 ];
 
@@ -95,7 +102,8 @@ exports.loginUser = async (req, res, next) => {
   // load does not happen before session is saved
   req.session.save(function (error) {
     if (error) {return next(error);}
-    res.redirect('/');
+    // res.redirect('/');
+    return res.status(200).send({});
   });
 
 };

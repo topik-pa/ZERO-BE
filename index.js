@@ -27,17 +27,21 @@ app.use(session({
 // set custom headers
 app.use(function (req, res, next) {
   // HEADER HSTS
-  res.setHeader('Strict-Transport-Security', 'max-age=999');
+  //res.setHeader('Strict-Transport-Security', 'max-age=31536000');
   // HEADER CSP
   // res.setHeader('Content-Security-Policy', 'upgrade-insecure-requests');
-  res.setHeader('Content-Security-Policy', 'block-all-mixed-content');
+  // res.setHeader('Content-Security-Policy', 'block-all-mixed-content');
+  // res.setHeader('Content-Security-Policy', 'frame-ancestors \'none\'');
+  //res.setHeader('Content-Security-Policy', 'upgrade-insecure-requests; frame-ancestors \'none\'');
+  //res.setHeader('X-Frame-Options', 'deny');
+  // res.setHeader('X-Content-Type-Options', 'nosniff');
   next();
 });
 
 app.use('/views', express.static(path.join(__dirname, 'views')));
 app.use('/scripts', express.static(path.join(__dirname, 'scripts')));
 app.use('/styles', express.static(path.join(__dirname, 'styles')));
-app.use('/assets', express.static(path.join(__dirname, 'assets')))
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 app.set('view engine', 'pug');
 
