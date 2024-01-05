@@ -9,18 +9,15 @@ function isAuthenticated (req, res, next) {
 }
 
 module.exports = app => {
-  
   //login
   router.get('/login', ctrl.loginView);
   router.post('/login', ctrl.loginUser);
 
-  
   //home page
   app.get('/', isAuthenticated, ctrl.hpView);
   
   //logout
   app.get('/logout', ctrl.logoutUser);
-
 
   app.use('/', router);
 };

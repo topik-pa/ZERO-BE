@@ -1,3 +1,4 @@
+// Model (emulated)
 const Users = [
   {
     id: 0,
@@ -29,6 +30,7 @@ const Users = [
   }
 ];
 
+// Regenerate session
 const regenerateSession = async (req) => {
   await new Promise((resolve, reject) => {
     req.session.regenerate((err) => {
@@ -41,12 +43,9 @@ const regenerateSession = async (req) => {
   });
 };
 
-// login view
-exports.loginView = async (req, res) => {
-  res.render('login', {title: 'Login Page'});
-};
 
-// login user
+// Functions
+// login
 exports.loginUser = async (req, res, next) => {
   const findUserByEmail = async (email) => {
     return await Users.find((user) => {
@@ -107,12 +106,7 @@ exports.loginUser = async (req, res, next) => {
   });
 
 };
-
-// home page view
-exports.hpView = async (req, res) => {
-  res.render('home', {title: 'Home page', user: req.session.user});
-};
-
+// logout
 exports.logoutUser = async (req, res, next) => {
   // clear the user from the session object and save.
   // this will ensure that re-using the old session id
@@ -129,3 +123,14 @@ exports.logoutUser = async (req, res, next) => {
     });
   });
 };
+
+// Views
+// login view
+exports.loginView = async (req, res) => {
+  res.render('login', {title: 'Login Page'});
+};
+// home page view
+exports.hpView = async (req, res) => {
+  res.render('home', {title: 'Home page', user: req.session.user});
+};
+
