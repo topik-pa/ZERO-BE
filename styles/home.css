@@ -1,11 +1,9 @@
-
-.gallery {
-  text-align: center;
-}
-.gallery div {
+section {
   display: flex;
+  justify-content: space-between;
 }
-img {
+
+.gallery img {
   max-width: 12rem;
   margin: 2rem;
 }

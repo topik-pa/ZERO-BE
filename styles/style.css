@@ -7,6 +7,12 @@ p {
   margin: 0;
 }
 
+.errors {
+  color: #990000;
+  text-align: center;
+  margin-top: 1rem;
+}
+
 header, footer {
   padding: 0 1rem;
   background: #333333;
