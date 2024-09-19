@@ -4,6 +4,7 @@ const express = require('express');
 const http = require('http');
 const session = require('express-session');
 const path = require('path');
+const compression = require('compression');
 
 const app = express();
 
@@ -23,18 +24,35 @@ app.use(session({
   cookie: { maxAge: oneDay }
 }));
 
+// Compress responses if browser is capable
+app.use(compression({ filter: shouldCompress }));
+function shouldCompress (req, res) {
+  if (req.headers['x-no-compression']) {
+    // don't compress responses with this request header
+    return false;
+  }
+  // fallback to standard filter function
+  return compression.filter(req, res);
+}
 
-// set custom headers
+// Set custom headers
 app.use(function (req, res, next) {
-  // Add some headers
-  // res.setHeader('Strict-Transport-Security', 'max-age=31536000');
-  // res.setHeader('Content-Security-Policy', 'upgrade-insecure-requests');
-  // res.setHeader('Content-Security-Policy', 'block-all-mixed-content');
-  // res.setHeader('Content-Security-Policy', 'frame-ancestors \'none\'');
-  // res.setHeader('Content-Security-Policy', 'upgrade-insecure-requests; frame-ancestors \'none\'');
-  // res.setHeader('X-Frame-Options', 'deny');
-  // res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('Strict-Transport-Security', 'max-age=31536000');
+  res.setHeader('Upgrade-insecure-requests', '1');
+  // eslint-disable-next-line max-len
+  /*res.setHeader('Content-Security-Policy', 'default-src \'none\'; script-src https://connect.facebook.net/ https://www.statcounter.com/ https://platform.linkedin.com/ https://www.linkedin.com/ \'self\' \'unsafe-inline\'; style-src \'self\' \'unsafe-inline\'; img-src \'self\' https://www.paypalobjects.com/ https://www.paypal.com/ https://c.statcounter.com/ data:; object-src \'none\'; frame-src https://c.statcounter.com/ https://www.facebook.com/ https://web.facebook.com/ https://www.linkedin.com/ \'self\'; form-action https://www.paypal.com/ \'self\'; font-src \'self\'; media-src \'self\'; connect-src https://c.statcounter.com/ \'self\'; frame-ancestors \'none\'; base-uri \'none\'');*/
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'deny');
   next();
+});
+
+// HTTPS redirect server-side
+app.use((req, res, next) => {
+  if (process.env.NODE_ENV === 'production') {
+    if (req.headers['x-forwarded-proto'] !== 'https') {
+      return res.redirect('https://' + req.headers.host + req.url);
+    } else { return next(); }
+  } else { return next(); }
 });
 
 app.use('/views', express.static(path.join(__dirname, 'views')));
