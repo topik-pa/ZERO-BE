@@ -133,4 +133,12 @@ exports.loginView = async (req, res) => {
 exports.hpView = async (req, res) => {
   res.render('home', {title: 'Home page', user: req.session.user});
 };
+// 404 view
+exports.notFoundView = async (req, res) => {
+  res.render('404', {title: 'Not found'});
+};
+// 500 view
+exports.serverError = async (req, res) => {
+  res.render('500', {title: 'Server error'});
+};
 

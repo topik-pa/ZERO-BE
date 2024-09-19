@@ -19,5 +19,10 @@ module.exports = app => {
   //logout
   app.get('/logout', ctrl.logoutUser);
 
+  //404
+  app.get('/404', ctrl.notFoundView);
+  //500
+  app.get('/500', ctrl.serverError);
+
   app.use('/', router);
 };

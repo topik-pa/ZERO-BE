@@ -65,17 +65,19 @@ app.set('view engine', 'pug');
 require('./routes/app.routes')(app);
 //404 handling
 app.use((req, res) => {
-  res.status(404).send({
+  return res.redirect('/404');
+  /* res.status(404).send({
     error: 'Resource not found',
     code: 'resourceNotFound'
-  });
+  }); */
 });
 //error handling
 // eslint-disable-next-line no-unused-vars
 app.use((error, req, res, next) => {
-  return res.status(error.status || 500).send({
+  return res.redirect('/500');
+  /* return res.status(error.status || 500).send({
     error
-  });
+  }); */
 });
 
 
