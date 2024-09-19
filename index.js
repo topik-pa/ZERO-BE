@@ -5,6 +5,7 @@ const http = require('http');
 const session = require('express-session');
 const path = require('path');
 const compression = require('compression');
+const { I18n } = require('i18n');
 
 const app = express();
 
@@ -61,6 +62,17 @@ app.use('/styles', express.static(path.join(__dirname, 'styles')));
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 app.set('view engine', 'pug');
+
+const i18n = new I18n({
+  locales: ['en', 'it'],
+  defaultLocale: 'en',
+  objectNotation: true,
+  directory: path.join(__dirname, 'locales')
+});
+app.use((req, res, next) => {
+  i18n.init(req, res);
+  next();
+});
 
 require('./routes/app.routes')(app);
 //404 handling

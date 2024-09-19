@@ -2,9 +2,10 @@
   let prod = process.env.NODE_ENV === 'production'
   let proj_name = 'Zero BE'
   let owner = 'Marco Pavan'
+  let lang = locale
 
 doctype html
-html(lang="en")
+html(lang=lang)
   head
     block meta 
       meta(charset="utf-8")
