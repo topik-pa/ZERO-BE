@@ -1,32 +1,27 @@
-body {
-  margin: 0;
-  padding: 0;
-}
 
-p {
-  margin: 0;
-}
+@import "./variables.css";
+@import "./reset.min.css";
+@import "./global.css";
+@import "./icons.css";
+@import "./image-icons.css";
+@import "./montserrat.css";
+@import "./headings.css";
+@import "./buttons.css";
+@import "./loading.css";
+@import "./responsive.css";
 
-.errors {
-  color: #990000;
-  text-align: center;
-  margin-top: 1rem;
-}
 
 header, footer {
   padding: 0 1rem;
-  background: #333333;
+  background: var(--black);
   color: #FFFFFF;
   font-weight: bold;
   text-align: center;
   height: 5vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 header {
-  display: flex;
   justify-content: space-between;
-  align-items: center;
-}
-main {
-  padding: 0 1rem;
-  height: 90vh;
 }
