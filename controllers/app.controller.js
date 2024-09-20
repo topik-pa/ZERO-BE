@@ -127,7 +127,12 @@ exports.logoutUser = async (req, res, next) => {
 // Views
 // login view
 exports.loginView = async (req, res) => {
-  res.render('login', {title: 'Login Page'});
+  res.render('login', {
+    id: 'login',
+    className: 'login',
+    title: 'Login Page',
+    url: req.url
+  });
 };
 // home page view
 exports.hpView = async (req, res) => {
