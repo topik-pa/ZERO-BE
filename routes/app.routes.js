@@ -15,9 +15,18 @@ module.exports = app => {
 
   //home page
   app.get('/', isAuthenticated, ctrl.hpView);
-  
+
   //logout
   app.get('/logout', ctrl.logoutUser);
+
+  // Sitemap.xml
+  app.get('/sitemap.xml', function (req, res) {
+    res.sendFile('public/sitemap.xml', { root: '.' })
+  })
+  // Robots.txt
+  app.get('/robots.txt', function (req, res) {
+    res.sendFile('public/robots.txt', { root: '.' })
+  })
 
   //404
   app.get('/404', ctrl.notFoundView);

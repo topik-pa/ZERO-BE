@@ -12,7 +12,7 @@ async function formSubmit(event) {
     /*const response = await fetch('/', {
       method: 'GET'
     });*/
-    
+
     // const result = await response.json();
     // if(response.status === 200) {
     document.querySelector('.feedback-html').innerHTML = '[html ]Hai cercato: ' + data.q;
